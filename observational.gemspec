@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/observational.rb",
+     "observational.gemspec",
      "spec/observational_spec.rb",
      "spec/spec_helper.rb"
   ]
