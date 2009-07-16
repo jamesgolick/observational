@@ -20,4 +20,8 @@ describe "Observational" do
       @message.save
     end
   end
+
+  it "should raise ArgumentError if passed any unfamiliar keys" do
+    lambda { Class.new.observes :user, :asdf => "whatever" }.should raise_error(ArgumentError)
+  end
 end

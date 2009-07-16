@@ -1,5 +1,7 @@
 module Observational
   def observes(model_name, opts = {})
+    opts.assert_valid_keys :with, :invokes, :on
+
     model_klass    = model_name.to_s.classify.constantize
     observer_klass = self
     model_klass.send(:"after_#{opts[:on]}") do |object|
