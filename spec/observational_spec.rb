@@ -1,11 +1,23 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Observational" do
+  before do
+    @user = User.new
+  end
+
   describe "creating an observer on create" do
     it "should invoke that method on create of the observed object" do
-      @user = User.new
       Notifier.expects(:deliver_new_user).with(@user)
       @user.save
+    end
+  end
+
+  describe "an observer that returns specific data from the observed object" do
+    it "should pass that specific data to the observer method" do
+      @user.save
+      @message = Message.new :creator => @user
+      Creditor.expects(:use_credits).with(@user)
+      @message.save
     end
   end
 end

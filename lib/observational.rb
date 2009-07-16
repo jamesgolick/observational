@@ -3,7 +3,8 @@ module Observational
     model_klass    = model_name.to_s.classify.constantize
     observer_klass = self
     model_klass.send(:"after_#{opts[:on]}") do |object|
-      observer_klass.send(opts[:invokes], object)
+      argument = opts.has_key?(:with) ? object.send(opts[:with]) : object
+      observer_klass.send(opts[:invokes], argument)
     end
   end
 end
