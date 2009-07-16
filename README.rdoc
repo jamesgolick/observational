@@ -1,7 +1,44 @@
-= observational
+= Observational
 
-Description goes here.
+How many times have you seen this in a rails app?
 
+  class User
+    after_create :deliver_welcome_message
+
+    protected
+    def deliver_welcome_message
+      Notifier.deliver_welcome_message(self)
+    end
+  end
+
+Why is the user concerned with the delivery of his own welcome message? It seems like that responsibility would be better suited to the Notifier.
+
+Observational makes it possible to make it the Notifier's responsibility, using the observer pattern.
+
+The equivalent of the above example is:
+
+  class Notifier < ActionMailer::Base
+    observes :user, :invokes => :deliver_welcome_message, :on => :create
+
+    def welcome_message(user)
+      # do mailer stuff here
+    end
+  end
+
+After a user is created, Notifier.deliver_welcome_message(that_user) will be invoked.
+
+It's also possible to specify that the observer method gets called with a specific attribute from the observed object.
+
+  class Creditor
+    observes :message, :invokes => :use_credit, :with => :creator, :on => :create
+
+    def use_credit(user)
+      # do something
+    end
+  end
+
+After a message is created, Creditor.use_credit(message.creator) will be called.
+  
 == Copyright
 
 Copyright (c) 2009 James Golick. See LICENSE for details.
