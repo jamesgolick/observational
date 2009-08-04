@@ -4,11 +4,12 @@ module Observational
   def observes(model_name, opts = {})
     opts.assert_valid_keys :with, :invokes, :on
 
-    model_klass    = model_name.to_s.classify.constantize
-    observer_klass = self
+    model_klass = model_name.to_s.classify.constantize
+    observer    = Observer.new :method     => opts[:invokes],
+                               :parameters => opts[:with].nil? ? nil : [*opts[:with]],
+                               :subscriber => self
     model_klass.send(:"after_#{opts[:on]}") do |object|
-      argument = opts.has_key?(:with) ? object.send(opts[:with]) : object
-      observer_klass.send(opts[:invokes], argument)
+      observer.invoke(object)
     end
   end
 end
