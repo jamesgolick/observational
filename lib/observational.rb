@@ -1,3 +1,5 @@
+require 'observational/observer'
+
 module Observational
   def observes(model_name, opts = {})
     opts.assert_valid_keys :with, :invokes, :on
