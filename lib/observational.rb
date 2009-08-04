@@ -6,12 +6,12 @@ module Observational
     opts.assert_valid_keys :with, :invokes, :on
 
     model_klass = model_name.to_s.classify.constantize
-    observer    = Observer.new :method     => opts[:invokes],
-                               :parameters => opts[:with].nil? ? nil : [*opts[:with]],
-                               :subscriber => self
-    model_klass.send(:"after_#{opts[:on]}") do |object|
-      observer.invoke(object)
-    end
+    model_klass.send(:include, Observable) unless model_klass.include?(Observable)
+    observer    = Observational::Observer.new :method     => opts[:invokes],
+                                              :parameters => opts[:with].nil? ? nil : [*opts[:with]],
+                                              :subscriber => self,
+                                              :actions    => opts[:on]
+    model_klass.add_observer(observer)
   end
 end
 
