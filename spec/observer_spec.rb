@@ -29,5 +29,18 @@ describe "Observer" do
       @observer.invoke(stub(:foo => "bar", :bar => "foo"))
     end
   end
+
+  describe "observing :after_create" do
+    before do
+      @observer = Observational::Observer.new :subscriber => @klass,
+                                              :method     => :do_stuff,
+                                              :parameters => [:foo, :bar],
+                                              :actions    => :after_create
+    end
+    subject { @observer }
+
+    it { should be_observes_action(:after_create) }
+    it { should_not be_observes_action(:other_stuff) }
+  end
 end
 
