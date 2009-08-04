@@ -20,6 +20,10 @@ module Observational
       def observers_for(action)
         observers.select { |o| o.observes_action?(action) }
       end
+
+      def delete_observers
+        @observers = []
+      end
     end
 
     protected

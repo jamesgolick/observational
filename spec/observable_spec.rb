@@ -37,4 +37,15 @@ describe "Observable" do
       @observable.send :notify_observers, :some_action
     end
   end
+
+  describe "removing the observers" do
+    before do
+      @klass.observers << @different_action
+      @klass.delete_observers
+    end
+
+    it "should clear out all the observers" do
+      @klass.observers.should be_empty
+    end
+  end
 end
