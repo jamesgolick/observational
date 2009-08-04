@@ -16,7 +16,16 @@ module Observational
       def observed_by?(observer)
         observers.include?(observer)
       end
+
+      def observers_for(action)
+        observers.select { |o| o.observes_action?(action) }
+      end
     end
+
+    protected
+      def notify_observers(action)
+        self.class.observers_for(action).each { |o| o.invoke(self) }
+      end
   end
 end
 
