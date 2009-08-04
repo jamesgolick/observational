@@ -1,4 +1,5 @@
 require 'observational/observer'
+require 'observational/observable'
 
 module Observational
   def observes(model_name, opts = {})
