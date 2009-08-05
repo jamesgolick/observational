@@ -41,6 +41,10 @@ After a message is created, Creditor.use_credit(message.creator) will be called.
 
 Observational supports all of ActiveRecord's callbacks.
 
+== YARDOC
+
+Observational uses YARD, because it's a million times better than RDoc. You can find the docs at {docs.github.com/giraffesoft/observational}[http://docs.github.com/giraffesoft/observational]
+
 == General Purpose Observers
 
 Observational can also be used to add observers to ruby classes that aren't related to active_record. But, that's not documented yet :-).
