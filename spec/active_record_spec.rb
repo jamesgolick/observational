@@ -16,4 +16,16 @@ describe "Observational::ActiveRecord" do
       end
     end
   end
+
+  describe "adding custom callbacks" do
+    before do
+      User.send :define_callbacks, :after_something_else
+      self.expects(:subscription).with(@user)
+      observes :user, :invokes => :subscription, :after => :something_else
+    end
+
+    it "should make it possible to observe those using observational" do
+      @user.send :callback, :after_something_else
+    end
+  end
 end
