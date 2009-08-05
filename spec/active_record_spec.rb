@@ -3,31 +3,17 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "Observational::ActiveRecord" do
   include Observational
 
-  def subscriber(user)
-    @new_record = user.new_record?
+  before do
+    @user = User.new
   end
 
-  describe "observing after_create" do
-    before do
-      observes :user, :on => :after_create, :invokes => :subscriber
-      User.create
-    end
-    after { User.delete_observers }
-
-    it "should fire after the object is created" do
-      @new_record.should be_false
-    end
-  end
-
-  describe "observing before_create" do
-    before do
-      observes :user, :on => :before_create, :invokes => :subscriber
-      User.create
-    end
-    after { User.delete_observers }
-
-    it "should fire after the object is created" do
-      @new_record.should be_true
+  [:before_create, :after_create, :before_save, :after_save].each do |callback|
+    describe "observing #{callback}" do
+      it "should fire the observer during that callback" do
+        self.expects(:subscription).with(@user)
+        observes :user, :invokes => :subscription, :on => callback
+        @user.send :callback, callback
+      end
     end
   end
 end
