@@ -42,8 +42,23 @@ describe "Observational" do
       @observer = Observed.observers.first
     end
 
-    it "should create an observer with :method => :before_create" do
+    it "should create an observer with :action => :before_create" do
       @observer.actions.should == [:before_create]
+    end
+  end
+
+  describe "using the activerecord shortcut :after => :whatever" do
+    before do
+      @observing_klass = Class.new do
+        observes :observed, :after   => :create,
+                            :invokes => :do_stuff
+      end
+
+      @observer = Observed.observers.first
+    end
+
+    it "should create an observer with :action => :after_create" do
+      @observer.actions.should == [:after_create]
     end
   end
 end
