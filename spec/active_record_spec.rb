@@ -7,7 +7,7 @@ describe "Observational::ActiveRecord" do
     @user = User.new
   end
 
-  [:before_create, :after_create, :before_save, :after_save].each do |callback|
+  ActiveRecord::Callbacks::CALLBACKS.each do |callback|
     describe "observing #{callback}" do
       it "should fire the observer during that callback" do
         self.expects(:subscription).with(@user)
