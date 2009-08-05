@@ -3,8 +3,9 @@ require 'observational/observable'
 
 module Observational
   def observes(model_name, opts = {})
-    opts.assert_valid_keys :with, :invokes, :on
+    opts.assert_valid_keys :with, :invokes, :on, :before
 
+    opts[:on]   = :"before_#{opts[:before]}" unless opts[:before].nil?
     model_klass = model_name.to_s.classify.constantize
     model_klass.send(:include, Observable) unless model_klass.include?(Observable)
     observer    = Observational::Observer.new :method     => opts[:invokes],
