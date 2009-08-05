@@ -18,7 +18,7 @@ Observational makes it possible to make it the Notifier's responsibility, using 
 The equivalent of the above example is:
 
   class Notifier < ActionMailer::Base
-    observes :user, :invokes => :deliver_welcome_message, :on => :create
+    observes :user, :invokes => :deliver_welcome_message, :after => :create
 
     def welcome_message(user)
       # do mailer stuff here
@@ -30,7 +30,7 @@ After a user is created, Notifier.deliver_welcome_message(that_user) will be inv
 It's also possible to specify that the observer method gets called with a specific attribute from the observed object.
 
   class Creditor
-    observes :message, :invokes => :use_credit, :with => :creator, :on => :create
+    observes :message, :invokes => :use_credit, :with => :creator, :after => :create
 
     def use_credit(user)
       # do something
@@ -38,6 +38,12 @@ It's also possible to specify that the observer method gets called with a specif
   end
 
 After a message is created, Creditor.use_credit(message.creator) will be called.
+
+Observational supports all of ActiveRecord's callbacks.
+
+== General Purpose Observers
+
+Observational can also be used to add observers to ruby classes that aren't related to active_record. But, that's not documented yet :-).
   
 == Copyright
 
