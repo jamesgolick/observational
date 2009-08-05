@@ -35,7 +35,7 @@ class Message < ActiveRecord::Base
 end
 
 class Notifier
-  observes :user, :invokes => :deliver_new_user, :on => :create
+  observes :user, :invokes => :deliver_new_user, :on => :after_create
 
   def self.deliver_new_user(user)
   end
@@ -47,4 +47,7 @@ class Creditor
   def self.use_credits(user)
   end
 end
+
+require 'observational/active_record'
+ActiveRecord::Base.send(:include, Observational::ActiveRecordObservers)
 
