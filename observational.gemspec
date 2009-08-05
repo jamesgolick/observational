@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{observational}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["James Golick"]
@@ -19,12 +19,12 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/observational.rb",
-     "lib/observational/active_record.rb",
+     "lib/observational/active_record_observers.rb",
      "lib/observational/observable.rb",
      "lib/observational/observer.rb",
      "observational.gemspec",
      "rails/init.rb",
-     "spec/active_record_spec.rb",
+     "spec/active_record_observers_spec.rb",
      "spec/observable_spec.rb",
      "spec/observational_spec.rb",
      "spec/observer_spec.rb",
@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.1}
   s.summary = %q{TODO}
   s.test_files = [
-    "spec/active_record_spec.rb",
+    "spec/active_record_observers_spec.rb",
      "spec/observable_spec.rb",
      "spec/observational_spec.rb",
      "spec/observer_spec.rb",
